@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Central do Hardware
 
-## Getting Started
+Este é um projeto acadêmico de e-commerce construído com Next.js (App Router), focado na venda de peças de hardware para PC. O projeto faz parte da Aula 7 de IA & Desenvolvimento e demonstra a integração de componentes modernos com IA.
 
-First, run the development server:
+## 🚀 Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Catálogo Temático**: 12 produtos focados no nicho de hardware e periféricos gamer.
+- **Carrinho de Compras**: Implementado com React Context API e persistência no localStorage.
+- **Busca Semântica com IA (TF-IDF)**: Motor de busca inteligente customizado rodando 100% no servidor, que entende contexto (ex: buscar por "presente para gamer" retorna itens relevantes).
+- **Checkout Simulado InfinitePay**: Fluxo de finalização de compra funcional que simula a integração com o gateway de pagamento.
+- **Design UI/UX Gamer**: Tema escuro com accent colors em neon/cyan, microinterações e design totalmente responsivo sem dependência de frameworks CSS (usando Vanilla CSS).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js 14 (App Router)
+- React
+- TypeScript
+- Vanilla CSS (com CSS Variables)
+- TF-IDF (Algoritmo de Busca Semântica Customizado)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Como Rodar Localmente
 
-## Learn More
+1. Clone este repositório
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Crie o arquivo `.env.local` baseado no `.env.example` (opcional, o app funciona sem variáveis de ambiente neste formato de entrega)
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+5. Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-To learn more about Next.js, take a look at the following resources:
+## 🧠 Sobre o Componente de IA (Busca Semântica)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Este projeto implementa um motor de busca semântica do zero utilizando o algoritmo **TF-IDF (Term Frequency - Inverse Document Frequency)** acoplado com **Similaridade de Cosseno**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Como funciona:
+1. **Corpus Expandido**: Cada produto possui um campo `searchCorpus` contendo sinônimos e contextos de uso (ex: "melhorar fps", "presente", "trabalho").
+2. **Processamento (NLP)**: Quando o usuário digita uma query, o texto é normalizado, convertido para minúsculas, tem seus acentos removidos e é limpo de "stopwords" em português (palavras como "de", "para", "com", etc).
+3. **Expansão de Query**: A query é expandida usando um dicionário de sinônimos pré-definido.
+4. **Cálculo de Similaridade**: A API route `/api/search` calcula a relevância matemática entre o que o usuário digitou e o conteúdo descritivo de cada produto, retornando os que dão "match" através de similaridade de cosseno, não apenas buscas exatas.
 
-## Deploy on Vercel
+A principal vantagem desta abordagem é não depender de APIs externas pagas, garantindo alta performance rodando direto na Vercel Edge/Serverless functions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Documentação e Diagramas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Na pasta `/docs` você encontra imagens e diagramas simplificados da arquitetura do projeto.
+
+---
+*Desenvolvido para a Aula 7 do curso.*
