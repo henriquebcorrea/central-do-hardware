@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <rect x="50" y="130" width="300" height="40" rx="2" fill="#222" stroke="#444" stroke-width="2"/>
+  <rect x="60" y="140" width="20" height="20" fill="#111"/>
+  <rect x="90" y="140" width="20" height="20" fill="#111"/>
+  <rect x="120" y="140" width="20" height="20" fill="#111"/>
+  <rect x="150" y="140" width="20" height="20" fill="#111"/>
+  <rect x="230" y="140" width="20" height="20" fill="#111"/>
+  <rect x="260" y="140" width="20" height="20" fill="#111"/>
+  <rect x="290" y="140" width="20" height="20" fill="#111"/>
+  <rect x="320" y="140" width="20" height="20" fill="#111"/>
+  <rect x="60" y="170" width="280" height="5" fill="#b8860b"/>
+  <text x="200" y="110" font-family="sans-serif" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">RAM DDR4 8GB</text>
+  <text x="200" y="200" font-family="sans-serif" font-size="16" fill="#00d4ff" text-anchor="middle">3200MHz</text>
+</svg>

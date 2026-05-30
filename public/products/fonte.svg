@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <rect x="100" y="80" width="200" height="140" rx="5" fill="#1a1a1a" stroke="#333" stroke-width="3"/>
+  <circle cx="160" cy="150" r="40" fill="#111" stroke="#444" stroke-width="2"/>
+  <circle cx="160" cy="150" r="10" fill="#333"/>
+  <rect x="230" y="100" width="50" height="100" rx="2" fill="#222"/>
+  <line x1="235" y1="110" x2="275" y2="110" stroke="#333" stroke-width="2"/>
+  <line x1="235" y1="130" x2="275" y2="130" stroke="#333" stroke-width="2"/>
+  <line x1="235" y1="150" x2="275" y2="150" stroke="#333" stroke-width="2"/>
+  <line x1="235" y1="170" x2="275" y2="170" stroke="#333" stroke-width="2"/>
+  <line x1="235" y1="190" x2="275" y2="190" stroke="#333" stroke-width="2"/>
+  <text x="200" y="60" font-family="sans-serif" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">Fonte 500W</text>
+  <text x="200" y="240" font-family="sans-serif" font-size="14" fill="#cd7f32" text-anchor="middle">80 Plus Bronze</text>
+</svg>

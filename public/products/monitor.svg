@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <rect x="50" y="50" width="300" height="180" rx="5" fill="#111" stroke="#333" stroke-width="4"/>
+  <rect x="54" y="54" width="292" height="172" fill="#000"/>
+  <!-- Screen content -->
+  <rect x="54" y="54" width="292" height="172" fill="url(#screen-grad)"/>
+  <polygon points="54,226 346,226 300,100 100,100" fill="rgba(0, 212, 255, 0.1)"/>
+  <path d="M 54 150 Q 200 100 346 150 L 346 226 L 54 226 Z" fill="rgba(124, 58, 237, 0.2)"/>
+  <!-- Stand -->
+  <path d="M 170 230 L 230 230 L 240 280 L 160 280 Z" fill="#222"/>
+  <rect x="130" y="280" width="140" height="10" rx="2" fill="#333"/>
+  <defs>
+    <linearGradient id="screen-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a2a" />
+      <stop offset="100%" stop-color="#1a1a3a" />
+    </linearGradient>
+  </defs>
+  <text x="200" y="40" font-family="sans-serif" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">Monitor Gamer 24" 144Hz</text>
+</svg>
