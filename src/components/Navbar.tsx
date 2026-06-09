@@ -88,7 +88,7 @@ export default function Navbar() {
           </svg>
           <input
             type="text"
-            placeholder='Busca inteligente — ex: "presente para gamer"'
+            placeholder="Buscar produtos..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => query.trim().length >= 2 && setShowResults(true)}

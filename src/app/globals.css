@@ -1670,10 +1670,10 @@ input:focus, select:focus, textarea:focus {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #9f67ff);
-  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--bg-primary);
   font-size: 1.5rem;
-  box-shadow: 0 4px 24px var(--accent-glow);
+  box-shadow: 0 4px 24px var(--primary-glow);
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -1685,7 +1685,7 @@ input:focus, select:focus, textarea:focus {
 
 .chat-widget-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 32px var(--accent-glow);
+  box-shadow: 0 6px 32px var(--primary-glow);
 }
 
 .chat-widget-panel {
@@ -1723,8 +1723,8 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(135deg, var(--accent), #9f67ff);
-  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--bg-primary);
 }
 
 .chat-widget-header-info {
@@ -1737,7 +1737,7 @@ input:focus, select:focus, textarea:focus {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1757,8 +1757,8 @@ input:focus, select:focus, textarea:focus {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1768,7 +1768,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .chat-widget-close:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .chat-widget-messages {
@@ -1795,8 +1795,8 @@ input:focus, select:focus, textarea:focus {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--accent-glow);
-  color: var(--accent);
+  background: var(--primary-glow);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1835,7 +1835,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .chat-suggestion-btn:hover {
-  border-color: var(--accent);
+  border-color: var(--primary);
   color: var(--text-bright);
   background: var(--bg-card-hover);
 }
@@ -1860,8 +1860,8 @@ input:focus, select:focus, textarea:focus {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--accent-glow);
-  color: var(--accent);
+  background: var(--primary-glow);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1934,8 +1934,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 .chat-widget-input input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
 .chat-widget-input input::placeholder {
@@ -1946,8 +1946,8 @@ input:focus, select:focus, textarea:focus {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #9f67ff);
-  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1959,7 +1959,7 @@ input:focus, select:focus, textarea:focus {
 
 .chat-send-btn:hover:not(:disabled) {
   transform: scale(1.1);
-  box-shadow: 0 0 16px var(--accent-glow);
+  box-shadow: 0 0 16px var(--primary-glow);
 }
 
 .chat-send-btn:disabled {
