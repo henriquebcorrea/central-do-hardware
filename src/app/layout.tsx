@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
+import ChatWidget from "@/components/ChatWidget";
 import Footer from "@/components/Footer";
 
 const inter = Inter({
@@ -30,6 +31,7 @@ export default function RootLayout({
           <Navbar />
           <CartDrawer />
           <main>{children}</main>
+          <ChatWidget />
           <Footer />
         </CartProvider>
       </body>
