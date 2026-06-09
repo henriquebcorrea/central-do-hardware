@@ -155,11 +155,24 @@ export const products: Product[] = [
     specs: ["120mm Fan", "RGB", "Intel/AMD", "TDP 150W"],
     featured: false,
     searchCorpus: "cooler refrigeracao ventilador fan processador cpu resfriar esfriar gelado temperatura quente esquentando aquecendo thermal throttling desempenho rgb gaming gamer presente barato"
+  },
+  {
+    id: "ryzen-5-5600x",
+    name: "AMD Ryzen 5 5600X",
+    price: 899.90,
+    description: "Processador AMD Ryzen 5 5600X com 6 núcleos e 12 threads. Arquitetura Zen 3 com excelente desempenho para gaming e produtividade, alcançando 4.6GHz em boost.",
+    category: "Processador",
+    image: "/products/ryzen-5-5600x.webp",
+    tags: ["processador", "cpu", "amd", "ryzen", "zen3", "gaming"],
+    specs: ["6 núcleos / 12 threads", "3.7GHz (4.6GHz boost)", "Zen 3", "AM4", "65W TDP"],
+    featured: false,
+    searchCorpus: "processador cpu amd ryzen 5 5600x zen3 6 nucleos 12 threads gaming gamer jogar desempenho fps upgrade trocar processador placa mae am4 cooler gabinete montar pc novo computador presente presente para gamer"
   }
 ];
 
 export const categories = [
   "Todos",
+  "Processador",
   "Placa de Vídeo",
   "Monitor",
   "Periféricos",
