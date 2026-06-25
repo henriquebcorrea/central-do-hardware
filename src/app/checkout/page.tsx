@@ -9,11 +9,28 @@ function formatPrice(price: number) {
   return price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+interface Coupon {
+  code: string;
+  type: "percent" | "fixed";
+  value: number;
+  minPurchase?: number;
+}
+
+const VALID_COUPONS: Coupon[] = [
+  { code: "HARDWARE10", type: "percent", value: 10 },
+  { code: "UPGRADE100", type: "fixed", value: 100, minPurchase: 500 },
+];
+
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState<any>(null);
   const [error, setError] = useState("");
+
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const [couponError, setCouponError] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +46,53 @@ export default function CheckoutPage() {
     cardCvv: "",
   });
 
+  // Cálculo de cupom
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "percent") {
+      discountAmount = (totalPrice * appliedCoupon.value) / 100;
+    } else if (appliedCoupon.type === "fixed") {
+      discountAmount = appliedCoupon.value;
+    }
+  }
+  const finalPrice = Math.max(0, totalPrice - discountAmount);
+
+  const handleApplyCoupon = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setCouponError("");
+    setCouponSuccess("");
+
+    const code = couponInput.trim().toUpperCase();
+    if (!code) {
+      setCouponError("Por favor, digite um cupom.");
+      return;
+    }
+
+    const coupon = VALID_COUPONS.find(c => c.code === code);
+    if (!coupon) {
+      setCouponError("Cupom inválido ou expirado.");
+      setAppliedCoupon(null);
+      return;
+    }
+
+    if (coupon.minPurchase && totalPrice < coupon.minPurchase) {
+      setCouponError(`Este cupom requer um valor mínimo de compra de ${formatPrice(coupon.minPurchase)}.`);
+      setAppliedCoupon(null);
+      return;
+    }
+
+    setAppliedCoupon(coupon);
+    setCouponSuccess(`Cupom "${coupon.code}" aplicado com sucesso!`);
+  };
+
+  const handleRemoveCoupon = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setAppliedCoupon(null);
+    setCouponInput("");
+    setCouponError("");
+    setCouponSuccess("");
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -38,6 +102,8 @@ export default function CheckoutPage() {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
+
+    console.log("FRONTEND SUBMITTING:", { totalPrice, discountAmount, finalPrice, coupon: appliedCoupon?.code });
 
     try {
       // Simula tokenização do cartão (como a InfinitePay faria no frontend)
@@ -59,7 +125,9 @@ export default function CheckoutPage() {
             quantity: item.quantity,
             price: item.product.price
           })),
-          total: totalPrice,
+          total: finalPrice,
+          coupon: appliedCoupon ? appliedCoupon.code : undefined,
+          discount: discountAmount,
           cardToken: mockCardToken, // Enviamos apenas o token gerado, nunca dados reais
         }),
       });
@@ -90,7 +158,7 @@ export default function CheckoutPage() {
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            
+
             <h2 className="animate-slide-up">Pagamento Aprovado!</h2>
             <p className="animate-slide-up" style={{ animationDelay: "100ms" }}>
               Obrigado pela sua compra, {orderComplete.customer.name.split(' ')[0]}.
@@ -98,15 +166,20 @@ export default function CheckoutPage() {
             <p className="animate-slide-up" style={{ animationDelay: "200ms" }}>
               Seu pedido já está sendo preparado para envio.
             </p>
-            
+
             <div className="mt-8 p-6 bg-bg-tertiary rounded-lg border border-border text-left animate-slide-up" style={{ animationDelay: "300ms" }}>
               <div className="text-sm text-text-muted mb-1">Número do Pedido</div>
               <div className="order-number mb-4">{orderComplete.id}</div>
-              
+
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <div className="text-text-muted">Total Pago</div>
                   <div className="font-heading font-bold text-primary">{formatPrice(orderComplete.total)}</div>
+                  {orderComplete.coupon && (
+                    <div className="text-xs text-success mt-1 font-semibold">
+                      Cupom {orderComplete.coupon} aplicado (-{formatPrice(orderComplete.discount)})
+                    </div>
+                  )}
                 </div>
                 <div>
                   <div className="text-text-muted">Método de Pagamento</div>
@@ -151,14 +224,14 @@ export default function CheckoutPage() {
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
           <div>
-            <strong>MODO SIMULADO:</strong> Esta página simula a integração com a InfinitePay. 
+            <strong>MODO SIMULADO:</strong> Esta página simula a integração com a InfinitePay.
             Nenhuma cobrança real será feita. Você pode digitar dados fictícios.
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="checkout-grid">
           <div className="checkout-forms flex flex-col gap-8">
-            
+
             {error && (
               <div className="p-4 bg-danger/10 border border-danger/30 text-danger rounded-md text-sm font-medium">
                 {error}
@@ -220,7 +293,7 @@ export default function CheckoutPage() {
 
           <div className="cart-summary sticky top-24">
             <h2>Resumo do Pedido</h2>
-            
+
             <div className="max-h-60 overflow-y-auto mb-4 border-b border-border pb-4">
               {items.map((item) => (
                 <div key={item.product.id} className="flex gap-3 mb-3 items-center">
@@ -237,24 +310,74 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
-            
+
             <div className="cart-summary-row">
               <span>Subtotal</span>
               <span>{formatPrice(totalPrice)}</span>
             </div>
-            
+
             <div className="cart-summary-row">
               <span>Frete Expresso</span>
               <span className="text-success font-semibold">Grátis</span>
             </div>
 
-            <div className="cart-summary-total">
-              <span>Total a Pagar</span>
-              <span className="cart-total-value">{formatPrice(totalPrice)}</span>
+            {appliedCoupon && (
+              <div className="cart-summary-row text-success font-semibold">
+                <span>Desconto ({appliedCoupon.code})</span>
+                <span>-{formatPrice(discountAmount)}</span>
+              </div>
+            )}
+
+            {/* Seção do Cupom */}
+            <div className="my-4 pt-4 border-t border-border flex flex-col gap-2">
+              <label className="text-xs font-semibold text-text-secondary">Cupom de Desconto</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="EX: HARDWARE10"
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  disabled={!!appliedCoupon}
+                  className="flex-1 text-xs"
+                  style={{ textTransform: "uppercase" }}
+                />
+                {appliedCoupon ? (
+                  <button
+                    onClick={handleRemoveCoupon}
+                    className="btn btn-danger py-2 px-3 text-xs"
+                    style={{ whiteSpace: "nowrap", padding: "8px 12px" }}
+                  >
+                    Remover
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="btn btn-secondary py-2 px-3 text-xs"
+                    style={{ whiteSpace: "nowrap", padding: "8px 12px" }}
+                  >
+                    Aplicar
+                  </button>
+                )}
+              </div>
+              {couponError && (
+                <div className="text-xs text-danger font-medium mt-1">
+                  {couponError}
+                </div>
+              )}
+              {couponSuccess && (
+                <div className="text-xs text-success font-semibold mt-1">
+                  {couponSuccess}
+                </div>
+              )}
             </div>
 
-            <button 
-              type="submit" 
+            <div className="cart-summary-total">
+              <span>Total a Pagar</span>
+              <span className="cart-total-value">{formatPrice(finalPrice)}</span>
+            </div>
+
+            <button
+              type="submit"
               className="btn btn-primary w-full text-center text-lg py-4 mt-6"
               disabled={isSubmitting}
             >
@@ -262,14 +385,14 @@ export default function CheckoutPage() {
             </button>
 
             <div className="mt-4 text-center text-xs text-text-muted flex flex-col items-center gap-2">
-              <svg viewBox="0 0 100 30" width="80" height="24">
-                {/* Simplified InfinitePay Logo representation */}
-                <rect width="100" height="30" fill="transparent"/>
-                <text x="10" y="20" fill="#00d4ff" fontFamily="sans-serif" fontSize="14" fontWeight="bold">InfinitePay</text>
-              </svg>
-              Pagamento processado com segurança via InfinitePay
-            </div>
-          </div>
+              <div className="flex items-center justify-center gap-2">
+                <svg viewBox="0 0 100 30" width="80" height="24">
+                  <rect width="100" height="30" fill="transparent" />
+                  <text x="10" y="20" fill="#00d4ff" fontFamily="sans-serif" fontSize="14" fontWeight="bold">InfinitePay</text>
+                </svg>
+              </div>
+              <span>Pagamento processado com segurança via InfinitePay</span>
+            </div>          </div>
         </form>
       </div>
     </div>

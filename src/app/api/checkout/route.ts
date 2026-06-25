@@ -4,10 +4,10 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const { customer, items, total } = body;
+    const { customer, items, total, coupon, discount } = body;
 
     // Validação básica
-    if (!customer || !items || !total) {
+    if (!customer || !items || typeof total === 'undefined') {
       return Response.json(
         { error: "Dados incompletos. Envie customer, items e total." },
         { status: 400 }
@@ -71,6 +71,8 @@ export async function POST(request: NextRequest) {
         id: orderNumber,
         status: "confirmed",
         total,
+        coupon: coupon || null,
+        discount: discount || 0,
         items: items.length,
         customer: {
           name: customer.name,
